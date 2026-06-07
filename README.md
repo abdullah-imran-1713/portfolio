@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Abdullah Imran — Portfolio
+
+Personal developer portfolio built with [Next.js](https://nextjs.org) 14. Single-page site with animated hero, project showcase, live GitHub activity, and contact section.
+
+## Features
+
+- **Hero** — Three.js wireframe sphere with scroll parallax
+- **About & Stack** — Bio and technology categories
+- **Work** — Featured projects with live platform links
+- **Activity** — GitHub contribution graph, language breakdown, stats, and radar chart
+- **Contact** — Email CTA and social links
+- **Responsive** — Mobile nav, 6-month swipeable contribution graph on small screens
+
+## Tech Stack
+
+- **Framework:** Next.js 14 (App Router), React 18, TypeScript
+- **Styling:** CSS custom properties
+- **3D:** Three.js, React Three Fiber, Drei
+- **Animation:** Framer Motion, CSS transitions
+- **Data:** GitHub REST API (contributions, languages, activity)
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- npm, yarn, pnpm, or bun
+
+### Install & run
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create `.env.local` in the project root:
 
-## Learn More
+```env
+GITHUB_TOKEN=your_github_personal_access_token
+```
 
-To learn more about Next.js, take a look at the following resources:
+The token needs **`repo`** scope if you want private repository contributions included in the activity graph. Never commit `.env.local` — it is listed in `.gitignore`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Scripts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Command         | Description              |
+| --------------- | ------------------------ |
+| `npm run dev`   | Start development server |
+| `npm run build` | Production build         |
+| `npm run start` | Run production server    |
+| `npm run lint`  | Run ESLint               |
+
+## Project structure
+
+```
+app/
+  api/          # GitHub stats, languages, activity routes
+  globals.css   # Design tokens and layout
+  page.tsx      # Root page
+components/     # UI sections and GitHub visualizations
+hooks/          # Shared React hooks
+public/         # Static assets (CV, images)
+```
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Push this repo to GitHub.
+2. Import the project on [Vercel](https://vercel.com/new).
+3. Add `GITHUB_TOKEN` under **Settings → Environment Variables**.
+4. Deploy.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See the [Next.js deployment docs](https://nextjs.org/docs/app/building-your-application/deploying) for more detail.
+
+## License
+
+Private — © Abdullah Imran
