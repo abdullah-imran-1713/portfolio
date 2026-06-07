@@ -11,6 +11,7 @@ const GRAPHQL_QUERY = `
         totalIssueContributions
         totalPullRequestContributions
         totalPullRequestReviewContributions
+        restrictedContributionsCount
         contributionCalendar {
           totalContributions
         }
@@ -194,25 +195,31 @@ export async function GET(request: NextRequest) {
       codeReview: collection.totalPullRequestReviewContributions ?? 0,
     };
 
+    const calendarTotal =
+      collection.contributionCalendar?.totalContributions ?? 0;
+    const restrictedCount = collection.restrictedContributionsCount ?? 0;
+
     const graphqlTotal =
       graphqlBreakdown.commits +
       graphqlBreakdown.issues +
       graphqlBreakdown.pullRequests +
       graphqlBreakdown.codeReview;
 
-    if (graphqlTotal > 0) {
-      return NextResponse.json({
-        ...withPercentages(graphqlBreakdown, year),
-        source: "graphql",
-        calendarTotal: collection.contributionCalendar?.totalContributions ?? 0,
-      });
-    }
+    // GraphQL hides private/restricted contributions in the breakdown fields
+    // even when the calendar shows them — fall back to search/events APIs.
+    const useActivityFallback =
+      restrictedCount > 0 ||
+      graphqlTotal === 0 ||
+      (calendarTotal > 0 && graphqlTotal < calendarTotal * 0.5);
 
-    const activityBreakdown = await fetchBreakdownFromActivity(token, year);
+    const breakdown = useActivityFallback
+      ? await fetchBreakdownFromActivity(token, year)
+      : graphqlBreakdown;
 
     return NextResponse.json({
-      ...withPercentages(activityBreakdown, year),
-      calendarTotal: collection.contributionCalendar?.totalContributions ?? 0,
+      ...withPercentages(breakdown, year),
+      source: useActivityFallback ? "activity" : "graphql",
+      calendarTotal,
     });
   } catch {
     return NextResponse.json(

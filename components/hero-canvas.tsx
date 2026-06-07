@@ -190,7 +190,7 @@ export function HeroCanvas() {
       parent && typeof ResizeObserver !== "undefined"
         ? new ResizeObserver(resize)
         : null;
-    resizeObserver?.observe(parent);
+    if (parent) resizeObserver?.observe(parent);
     resize();
 
     let mx = 0;
