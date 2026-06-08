@@ -21,8 +21,6 @@ export function HeroCanvas() {
 
     const heroCanvas = canvas;
 
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
     let accent = cssColor("--accent", "#6f93b3");
     let accent2 = cssColor("--accent-2", "#8aadc4");
 
@@ -104,35 +102,6 @@ export function HeroCanvas() {
       group.add(shell);
       buildVertexPoints(geometry);
     }
-
-    const fieldCount = reduce ? 380 : 1100;
-    const fieldGeometry = new THREE.BufferGeometry();
-    const fieldPositions = new Float32Array(fieldCount * 3);
-
-    for (let i = 0; i < fieldCount; i += 1) {
-      const radius = 6 + Math.random() * 16;
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
-      fieldPositions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
-      fieldPositions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
-      fieldPositions[i * 3 + 2] = radius * Math.cos(phi) - 6;
-    }
-
-    fieldGeometry.setAttribute(
-      "position",
-      new THREE.BufferAttribute(fieldPositions, 3),
-    );
-
-    const fieldMat = new THREE.PointsMaterial({
-      color: accent2,
-      size: 0.045,
-      transparent: true,
-      opacity: 0.6,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
-    });
-    const field = new THREE.Points(fieldGeometry, fieldMat);
-    scene.add(field);
 
     const ringCount = 90;
     const ringGeometry = new THREE.BufferGeometry();
@@ -219,8 +188,8 @@ export function HeroCanvas() {
       coreMat.color = accent;
       shellMat.color = accent;
       ptsMat.color = accent;
-      fieldMat.color = accent2;
       ringMat.color = accent2;
+      window.__starfieldRecolor?.();
     };
 
     function animate() {
@@ -242,8 +211,6 @@ export function HeroCanvas() {
       if (pts) pts.rotation.copy(core.rotation);
       ring.rotation.z += 0.004 * speed;
 
-      field.rotation.y += 0.0004 * speed;
-      field.rotation.x = my * 0.15 * parallax;
       camera.position.x += (mx * 1.4 * parallax - camera.position.x) * 0.04;
       camera.position.y += (-my * 1.0 * parallax - camera.position.y) * 0.04;
       camera.lookAt(0, 0, 0);

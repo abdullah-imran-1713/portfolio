@@ -5,6 +5,8 @@ import { GitHubActivityPanel } from "./github-activity-panel";
 import { GitHubLanguagesCard } from "./github-languages-card";
 import { GitHubStatsCard } from "./github-stats-card";
 import { HeroCanvas } from "./hero-canvas";
+import { StarfieldCanvas } from "./starfield-canvas";
+import { RecruiterAssistant } from "./recruiter-assistant";
 
 const TYPED_PHRASES = [
   "I build scalable web platforms — end to end.",
@@ -375,6 +377,7 @@ export function PortfolioPage() {
 
   return (
     <>
+      <StarfieldCanvas />
       <div className="grain" aria-hidden="true" />
       <div className="cursor-dot" ref={dotRef} aria-hidden="true" />
       <div className="cursor-ring" ref={ringRef} aria-hidden="true" />
@@ -720,6 +723,8 @@ export function PortfolioPage() {
           <span className="f-mono">Lahore, PK · 31.5°N</span>
         </div>
       </footer>
+
+      <RecruiterAssistant />
     </>
   );
 }

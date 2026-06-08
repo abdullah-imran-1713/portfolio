@@ -9,6 +9,7 @@ Personal developer portfolio built with [Next.js](https://nextjs.org) 14. Single
 - **Work** — Featured projects with live platform links
 - **Activity** — GitHub contribution graph, language breakdown, stats, and radar chart
 - **Contact** — Email CTA and social links
+- **Recruiter assistant** — AI chat grounded in Abdullah's profile data (Groq)
 - **Responsive** — Mobile nav, 6-month swipeable contribution graph on small screens
 
 ## Tech Stack
@@ -41,9 +42,18 @@ Create `.env.local` in the project root:
 
 ```env
 GITHUB_TOKEN=your_github_personal_access_token
+
+GROQ_API_KEY=your_groq_api_key
 ```
 
-The token needs **`repo`** scope if you want private repository contributions included in the activity graph. Never commit `.env.local` — it is listed in `.gitignore`.
+- `GITHUB_TOKEN` needs **`repo`** scope if you want private repository contributions included in the activity graph.
+- **`GROQ_API_KEY`** powers the recruiter assistant. Free key from [console.groq.com/keys](https://console.groq.com/keys) — starts with `gsk_`. No credit card.
+
+Never commit `.env.local` — it is listed in `.gitignore`.
+
+### Recruiter assistant knowledge base
+
+Profile data for the AI lives in `data/knowledge-base.ts`. Edit this file to add skills or background not on your CV (e.g. Blender, certifications, side projects). The assistant only answers from this file plus retrieved context — it does not browse the web.
 
 ## Scripts
 
@@ -70,7 +80,7 @@ public/         # Static assets (CV, images)
 
 1. Push this repo to GitHub.
 2. Import the project on [Vercel](https://vercel.com/new).
-3. Add `GITHUB_TOKEN` under **Settings → Environment Variables**.
+3. Add `GITHUB_TOKEN` and `GROQ_API_KEY` under **Settings → Environment Variables**.
 4. Deploy.
 
 See the [Next.js deployment docs](https://nextjs.org/docs/app/building-your-application/deploying) for more detail.
