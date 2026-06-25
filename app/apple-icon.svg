@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-label="Abdullah Imran">
+  <style>
+    .bg { fill: #08090c; }
+    .frame { fill: none; stroke: #6f93b3; stroke-width: 3; }
+    .mark { fill: #6f93b3; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 84px; font-weight: 700; letter-spacing: -0.06em; }
+    @media (prefers-color-scheme: light) {
+      .bg { fill: #eef1f4; }
+      .frame { stroke: #4a6d8a; }
+      .mark { fill: #4a6d8a; }
+    }
+  </style>
+  <rect class="bg" width="180" height="180" rx="40" />
+  <rect class="frame" x="8" y="8" width="164" height="164" rx="36" />
+  <text class="mark" x="90" y="92" text-anchor="middle" dominant-baseline="central">AI</text>
+</svg>

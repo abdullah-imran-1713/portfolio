@@ -16,7 +16,7 @@ export async function GET() {
         repositories(
           first: 100
           ownerAffiliations: OWNER
-          privacy: PRIVATE
+          isFork: false
           orderBy: { field: STARGAZERS, direction: DESC }
         ) {
           totalCount

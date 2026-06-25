@@ -1,9 +1,126 @@
 "use client";
 
 import { SUGGESTED_PROMPTS } from "@/data/knowledge-base";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import {
+  DownloadIcon,
+  EmailIcon,
+  GitHubIcon,
+  LinkedInIcon,
+} from "./social-icons";
 
 type Message = { role: "user" | "assistant"; content: string };
+
+type Corner = "top-left" | "top-right" | "bottom-left" | "bottom-right";
+
+const CORNERS: Corner[] = [
+  "top-left",
+  "top-right",
+  "bottom-left",
+  "bottom-right",
+];
+
+const FAB_CORNER_KEY = "assistant-fab-corner";
+const FAB_DRAG_THRESHOLD = 8;
+const FAB_EDGE_INSET = 24;
+const FAB_EDGE_INSET_MOBILE = 16;
+const PANEL_CLOSE_MS = 420;
+
+type FabCursorMode = "none" | "pressing" | "dragging";
+
+function setFabCursor(mode: FabCursorMode) {
+  if (typeof document === "undefined") return;
+
+  const root = document.documentElement;
+  root.classList.remove("assistant-fab-pressing", "assistant-fab-dragging");
+
+  if (mode === "pressing") {
+    root.classList.add("assistant-fab-pressing");
+  }
+
+  if (mode === "dragging") {
+    root.classList.add("assistant-fab-dragging");
+  }
+}
+
+function isCorner(value: string): value is Corner {
+  return CORNERS.includes(value as Corner);
+}
+
+function getEdgeInset(): number {
+  if (typeof window === "undefined") return FAB_EDGE_INSET;
+  return window.matchMedia("(max-width: 600px)").matches
+    ? FAB_EDGE_INSET_MOBILE
+    : FAB_EDGE_INSET;
+}
+
+function getNearestCorner(clientX: number, clientY: number): Corner {
+  const isLeft = clientX < window.innerWidth / 2;
+  const isTop = clientY < window.innerHeight / 2;
+  if (isTop && isLeft) return "top-left";
+  if (isTop && !isLeft) return "top-right";
+  if (!isTop && isLeft) return "bottom-left";
+  return "bottom-right";
+}
+
+function getNavClearance(): number {
+  const base = getEdgeInset();
+  if (typeof window === "undefined") return base + 64;
+
+  const header = document.getElementById("nav");
+  if (!header) {
+    return base + (window.matchMedia("(max-width: 900px)").matches ? 64 : 70);
+  }
+
+  const headerBottom = header.getBoundingClientRect().bottom;
+  return Math.max(base, Math.ceil(headerBottom) + 12);
+}
+
+function getTopInset(corner: Corner): number {
+  if (!corner.startsWith("top")) return getEdgeInset();
+  if (typeof window === "undefined") return FAB_EDGE_INSET + 64;
+  return getNavClearance();
+}
+
+function getCornerPosition(
+  corner: Corner,
+  width: number,
+  height: number,
+): { left: number; top: number } {
+  const inset = getEdgeInset();
+  const topInset = getTopInset(corner);
+  const maxLeft = window.innerWidth - width - inset;
+  const maxTop = window.innerHeight - height - inset;
+
+  switch (corner) {
+    case "top-left":
+      return { left: inset, top: topInset };
+    case "top-right":
+      return { left: maxLeft, top: topInset };
+    case "bottom-left":
+      return { left: inset, top: maxTop };
+    case "bottom-right":
+      return { left: maxLeft, top: maxTop };
+  }
+}
+
+function clampDragPosition(
+  left: number,
+  top: number,
+  width: number,
+  height: number,
+  corner: Corner,
+): { left: number; top: number } {
+  const inset = getEdgeInset();
+  const topInset = getTopInset(corner);
+  const maxLeft = window.innerWidth - width - inset;
+  const maxTop = window.innerHeight - height - inset;
+  return {
+    left: Math.min(Math.max(left, inset), Math.max(inset, maxLeft)),
+    top: Math.min(Math.max(top, topInset), Math.max(topInset, maxTop)),
+  };
+}
 
 function typingDelay(char: string, nextChar: string | undefined): number {
   if (char === "\n") return 70;
@@ -187,12 +304,7 @@ function AssistantCtas({ email, linkedin, github, resume }: CtaFlags) {
           aria-label={`Email ${CONTACT.email}`}
           title={CONTACT.email}
         >
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path
-              fill="currentColor"
-              d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5L4 8V6l8 5 8-5v2Z"
-            />
-          </svg>
+          <EmailIcon />
           <span>Email</span>
         </a>
       )}
@@ -205,12 +317,7 @@ function AssistantCtas({ email, linkedin, github, resume }: CtaFlags) {
           aria-label="LinkedIn profile"
           title="LinkedIn"
         >
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path
-              fill="currentColor"
-              d="M20.45 20.45h-3.55v-5.55c0-1.32-.03-3.02-1.84-3.02-1.84 0-2.12 1.44-2.12 2.93v5.64H9.39V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.26 2.37 4.26 5.45v6.29ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.8 0 0 .77 0 1.72v20.56C0 23.23.8 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0Z"
-            />
-          </svg>
+          <LinkedInIcon />
           <span>LinkedIn</span>
         </a>
       )}
@@ -223,12 +330,7 @@ function AssistantCtas({ email, linkedin, github, resume }: CtaFlags) {
           aria-label={`GitHub ${CONTACT.githubUsername}`}
           title="GitHub"
         >
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path
-              fill="currentColor"
-              d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12Z"
-            />
-          </svg>
+          <GitHubIcon />
           <span>GitHub</span>
         </a>
       )}
@@ -240,12 +342,7 @@ function AssistantCtas({ email, linkedin, github, resume }: CtaFlags) {
           aria-label="Download Abdullah's resume"
           title="Download Resume"
         >
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path
-              fill="currentColor"
-              d="M12 3a1 1 0 0 1 1 1v9.59l2.3-2.3a1 1 0 1 1 1.4 1.42l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 1 1 1.4-1.42l2.3 2.3V4a1 1 0 0 1 1-1Zm-7 14a1 1 0 0 1 1 1v1h12v-1a1 1 0 1 1 2 0v2a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1Z"
-            />
-          </svg>
+          <DownloadIcon />
           <span>Download Resume</span>
         </a>
       )}
@@ -255,18 +352,260 @@ function AssistantCtas({ email, linkedin, github, resume }: CtaFlags) {
 
 export function RecruiterAssistant() {
   const [open, setOpen] = useState(false);
+  const [panelMounted, setPanelMounted] = useState(false);
+  const [corner, setCorner] = useState<Corner>("bottom-right");
+  const [position, setPosition] = useState<{ left: number; top: number } | null>(
+    null,
+  );
+  const [hydrated, setHydrated] = useState(false);
+  const [dragging, setDragging] = useState(false);
+  const [pressing, setPressing] = useState(false);
   const [messages, setMessages] = useState<Message[]>([WELCOME]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [streaming, setStreaming] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const streamTimeoutRef = useRef<number | null>(null);
   const streamIndexRef = useRef(0);
+  const closeTimerRef = useRef<number | null>(null);
+  const openRef = useRef(open);
+  const panelMountedRef = useRef(panelMounted);
+  const dragRef = useRef({
+    active: false,
+    moved: false,
+    startX: 0,
+    startY: 0,
+    originLeft: 0,
+    originTop: 0,
+  });
+
+  const syncPositionToCorner = useCallback(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    const { width, height } = root.getBoundingClientRect();
+    setPosition(getCornerPosition(corner, width, height));
+  }, [corner]);
 
   const busy = loading || streaming;
+
+  openRef.current = open;
+  panelMountedRef.current = panelMounted;
+
+  const openAssistant = useCallback(() => {
+    if (closeTimerRef.current !== null) {
+      window.clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+
+    setPanelMounted(true);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => setOpen(true));
+    });
+  }, []);
+
+  const closeAssistant = useCallback(() => {
+    setOpen(false);
+
+    if (closeTimerRef.current !== null) {
+      window.clearTimeout(closeTimerRef.current);
+    }
+
+    closeTimerRef.current = window.setTimeout(() => {
+      setPanelMounted(false);
+      closeTimerRef.current = null;
+    }, PANEL_CLOSE_MS);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (closeTimerRef.current !== null) {
+        window.clearTimeout(closeTimerRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const stored = localStorage.getItem(FAB_CORNER_KEY);
+    if (stored && isCorner(stored)) {
+      setCorner(stored);
+    }
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    localStorage.setItem(FAB_CORNER_KEY, corner);
+  }, [corner, hydrated]);
+
+  useLayoutEffect(() => {
+    if (!hydrated || position !== null) return;
+
+    const root = rootRef.current;
+    if (!root) return;
+
+    const { width, height } = root.getBoundingClientRect();
+    setPosition(getCornerPosition(corner, width, height));
+  }, [hydrated, position, corner]);
+
+  useLayoutEffect(() => {
+    if (!panelMounted || !position) return;
+
+    const root = rootRef.current;
+    if (!root) return;
+
+    if (corner.startsWith("top")) {
+      const inset = getEdgeInset();
+      const maxH = Math.min(
+        620,
+        Math.max(280, window.innerHeight - position.top - inset),
+      );
+      root.style.setProperty("--assistant-panel-max-h", `${maxH}px`);
+      return;
+    }
+
+    root.style.removeProperty("--assistant-panel-max-h");
+  }, [panelMounted, position, corner]);
+
+  useEffect(() => {
+    if (!hydrated) return;
+
+    const onResize = () => {
+      if (dragging) return;
+      syncPositionToCorner();
+    };
+
+    const onScroll = () => {
+      if (dragging || panelMounted || !corner.startsWith("top")) return;
+      syncPositionToCorner();
+    };
+
+    window.addEventListener("resize", onResize);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, [corner, dragging, hydrated, panelMounted, syncPositionToCorner]);
+
+  useEffect(() => {
+    return () => {
+      setFabCursor("none");
+    };
+  }, []);
+
+  const handleFabPointerDown = (event: React.PointerEvent<HTMLButtonElement>) => {
+    if (panelMountedRef.current) return;
+
+    const root = rootRef.current;
+    if (!root) return;
+
+    const rect = root.getBoundingClientRect();
+    dragRef.current = {
+      active: true,
+      moved: false,
+      startX: event.clientX,
+      startY: event.clientY,
+      originLeft: rect.left,
+      originTop: rect.top,
+    };
+    setPressing(true);
+    setFabCursor("pressing");
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const handleFabPointerMove = (event: React.PointerEvent<HTMLButtonElement>) => {
+    if (!dragRef.current.active) return;
+
+    const dx = event.clientX - dragRef.current.startX;
+    const dy = event.clientY - dragRef.current.startY;
+
+    if (
+      !dragRef.current.moved &&
+      Math.hypot(dx, dy) < FAB_DRAG_THRESHOLD
+    ) {
+      return;
+    }
+
+    dragRef.current.moved = true;
+    setDragging(true);
+    setFabCursor("dragging");
+    rootRef.current?.classList.add("assistant-root--dragging");
+
+    const root = rootRef.current;
+    if (!root) return;
+
+    const rect = root.getBoundingClientRect();
+    const next = clampDragPosition(
+      dragRef.current.originLeft + dx,
+      dragRef.current.originTop + dy,
+      rect.width,
+      rect.height,
+      corner,
+    );
+    setPosition(next);
+  };
+
+  const snapToCorner = (nextCorner: Corner) => {
+    const root = rootRef.current;
+    if (!root) {
+      setDragging(false);
+      return;
+    }
+
+    const { width, height } = root.getBoundingClientRect();
+    const target = getCornerPosition(nextCorner, width, height);
+
+    setCorner(nextCorner);
+    root.classList.remove("assistant-root--dragging");
+    setDragging(false);
+
+    requestAnimationFrame(() => {
+      setPosition(target);
+    });
+  };
+
+  const finishFabPointer = (
+    event: React.PointerEvent<HTMLButtonElement>,
+    toggleOnTap: boolean,
+  ) => {
+    if (!dragRef.current.active) return;
+
+    const wasDrag = dragRef.current.moved;
+    dragRef.current.active = false;
+    dragRef.current.moved = false;
+    setPressing(false);
+    setFabCursor("none");
+
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+
+    if (wasDrag) {
+      snapToCorner(getNearestCorner(event.clientX, event.clientY));
+      return;
+    }
+
+    setDragging(false);
+
+    if (toggleOnTap) {
+      if (openRef.current || panelMountedRef.current) closeAssistant();
+      else openAssistant();
+    }
+  };
+
+  const handleFabPointerUp = (event: React.PointerEvent<HTMLButtonElement>) => {
+    finishFabPointer(event, true);
+  };
+
+  const handleFabPointerCancel = (
+    event: React.PointerEvent<HTMLButtonElement>,
+  ) => {
+    finishFabPointer(event, false);
+  };
 
   const adjustInputHeight = useCallback(() => {
     const el = inputRef.current;
@@ -376,12 +715,12 @@ export function RecruiterAssistant() {
     if (!open) return;
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") closeAssistant();
     };
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [open]);
+  }, [open, closeAssistant]);
 
   const sendMessage = async (text: string) => {
     const trimmed = text.trim();
@@ -435,22 +774,69 @@ export function RecruiterAssistant() {
   };
 
   return (
-    <div className="assistant-root">
-      {open && (
-        <div
-          className="assistant-backdrop"
-          aria-hidden="true"
-          onClick={() => setOpen(false)}
-        />
-      )}
+    <>
+      {panelMounted &&
+        typeof document !== "undefined" &&
+        createPortal(
+          <div
+            className={`assistant-backdrop${
+              open ? " assistant-backdrop--visible" : ""
+            }`}
+            aria-hidden="true"
+            onClick={closeAssistant}
+          />,
+          document.body,
+        )}
 
+    <div
+      ref={rootRef}
+      className={`assistant-root assistant-root--${corner}${
+        dragging ? " assistant-root--dragging" : ""
+      }${panelMounted ? " assistant-root--expanded" : ""}`}
+      style={
+        position
+          ? {
+              left: position.left,
+              top: position.top,
+            }
+          : undefined
+      }
+    >
       <div
-        ref={panelRef}
-        className={`assistant-panel${open ? " assistant-panel--open" : ""}`}
-        role="dialog"
-        aria-label="Recruiter assistant"
-        aria-hidden={!open}
+        className={`assistant-fab-shell${
+          panelMounted ? " assistant-fab-shell--hidden" : ""
+        }${dragging ? " assistant-fab-shell--dragging" : ""}`}
       >
+        <button
+          type="button"
+          className={`assistant-fab${
+            pressing ? " assistant-fab--pressing" : ""
+          }${dragging ? " assistant-fab--dragging" : ""}`}
+          aria-expanded={open}
+          aria-controls="recruiter-assistant-panel"
+          aria-grabbed={dragging}
+          data-hover={dragging || panelMounted ? undefined : true}
+          onPointerDown={handleFabPointerDown}
+          onPointerMove={handleFabPointerMove}
+          onPointerUp={handleFabPointerUp}
+          onPointerCancel={handleFabPointerCancel}
+        >
+          <span className="assistant-fab__icon" aria-hidden="true">
+            ✦
+          </span>
+          <span className="assistant-fab__label">Ask about me</span>
+        </button>
+      </div>
+
+      {panelMounted && (
+        <div
+          ref={panelRef}
+          id="recruiter-assistant-panel"
+          className={`assistant-panel${open ? " assistant-panel--open" : ""}`}
+          role="dialog"
+          aria-label="Recruiter assistant"
+          aria-hidden={!open}
+        >
         <header className="assistant-header">
           <div>
             <p className="assistant-kicker">Recruiter assistant</p>
@@ -461,7 +847,7 @@ export function RecruiterAssistant() {
             className="assistant-close"
             aria-label="Close assistant"
             data-hover
-            onClick={() => setOpen(false)}
+            onClick={closeAssistant}
           >
             ×
           </button>
@@ -580,23 +966,9 @@ export function RecruiterAssistant() {
           Answers from Abdullah&apos;s profile only ·{" "}
           <a href="mailto:abdullah.dev1713@gmail.com">Contact directly</a>
         </p>
-      </div>
-
-      <button
-        type="button"
-        className={`assistant-fab${open ? " assistant-fab--open" : ""}`}
-        aria-expanded={open}
-        aria-controls="recruiter-assistant-panel"
-        data-hover
-        onClick={() => setOpen((value) => !value)}
-      >
-        <span className="assistant-fab__icon" aria-hidden="true">
-          {open ? "×" : "✦"}
-        </span>
-        <span className="assistant-fab__label">
-          {open ? "Close" : "Ask about me"}
-        </span>
-      </button>
+        </div>
+      )}
     </div>
+    </>
   );
 }

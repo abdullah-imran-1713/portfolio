@@ -7,6 +7,7 @@ import { GitHubStatsCard } from "./github-stats-card";
 import { HeroCanvas } from "./hero-canvas";
 import { StarfieldCanvas } from "./starfield-canvas";
 import { RecruiterAssistant } from "./recruiter-assistant";
+import { DownloadIcon, GitHubIcon, LinkedInIcon } from "./social-icons";
 
 const TYPED_PHRASES = [
   "I build scalable web platforms — end to end.",
@@ -18,7 +19,6 @@ const TYPED_PHRASES = [
 const STACK_CATEGORIES = [
   {
     delay: "1",
-    num: "[01]",
     name: "Frontend",
     chips: [
       "Next.js",
@@ -33,7 +33,6 @@ const STACK_CATEGORIES = [
   },
   {
     delay: "2",
-    num: "[02]",
     name: "Backend",
     chips: [
       "Node.js",
@@ -46,7 +45,6 @@ const STACK_CATEGORIES = [
   },
   {
     delay: "1",
-    num: "[03]",
     name: "Languages & Data",
     chips: [
       "TypeScript",
@@ -59,7 +57,6 @@ const STACK_CATEGORIES = [
   },
   {
     delay: "2",
-    num: "[04]",
     name: "Cloud & DevOps",
     chips: [
       "Firebase",
@@ -412,19 +409,19 @@ export function PortfolioPage() {
           className={`nav-links${menuOpen ? " nav-links--open" : ""}`}
         >
           <a href="#about" data-hover onClick={closeMenu}>
-            <span className="idx">01</span>About
+            About
           </a>
           <a href="#stack" data-hover onClick={closeMenu}>
-            <span className="idx">02</span>Stack
+            Stack
           </a>
           <a href="#work" data-hover onClick={closeMenu}>
-            <span className="idx">03</span>Work
+            Work
           </a>
           <a href="#activity" data-hover onClick={closeMenu}>
-            <span className="idx">04</span>Activity
+            Activity
           </a>
           <a href="#contact" data-hover onClick={closeMenu}>
-            <span className="idx">05</span>Contact
+            Contact
           </a>
           <a
             href="/Abdullah-Imran-CV.pdf"
@@ -433,7 +430,8 @@ export function PortfolioPage() {
             data-hover
             onClick={closeMenu}
           >
-            Resume ↓
+            <span>Resume</span>
+            <DownloadIcon className="nav-cta__icon" />
           </a>
         </div>
       </header>
@@ -490,7 +488,7 @@ export function PortfolioPage() {
       <section id="about">
         <div className="wrap">
           <div className="section-head reveal">
-            <div className="section-label">01 / About</div>
+            <div className="section-label">About</div>
             <h2 className="section-title">
               Engineer behind the <span className="muted">interface.</span>
             </h2>
@@ -555,7 +553,7 @@ export function PortfolioPage() {
       <section id="stack">
         <div className="wrap">
           <div className="section-head reveal">
-            <div className="section-label">02 / Tech Stack</div>
+            <div className="section-label">Tech Stack</div>
             <h2 className="section-title">
               Tools I build <span className="muted">with.</span>
             </h2>
@@ -569,7 +567,6 @@ export function PortfolioPage() {
                 onMouseMove={handleStackGlow}
               >
                 <div className="cat-head">
-                  <span className="cat-num">{category.num}</span>
                   <span className="cat-name">{category.name}</span>
                 </div>
                 <div className="chips">
@@ -588,7 +585,7 @@ export function PortfolioPage() {
       <section id="work">
         <div className="wrap">
           <div className="section-head reveal">
-            <div className="section-label">03 / Experience</div>
+            <div className="section-label">Experience</div>
             <h2 className="section-title">
               Where I&apos;ve <span className="muted">shipped.</span>
             </h2>
@@ -613,7 +610,9 @@ export function PortfolioPage() {
                         target="_blank"
                         rel="noopener noreferrer"
                         data-hover
+                        aria-label={`Visit ${item.company} live platform`}
                       >
+                        <span className="tl-site__dot" aria-hidden="true" />
                         Live platform <span className="ext">↗</span>
                       </a>
                     )}
@@ -641,7 +640,7 @@ export function PortfolioPage() {
       <section id="activity" className="activity-section">
         <div className="wrap">
           <div className="section-head reveal">
-            <div className="section-label">04 / Activity</div>
+            <div className="section-label">Activity</div>
             <h2 className="section-title">Code <span className="muted">activity.</span></h2>
           </div>
           <div className="activity-body reveal" data-d="1">
@@ -666,7 +665,7 @@ export function PortfolioPage() {
         <div className="wrap">
           <div className="reveal">
             <div className="section-label" style={{ justifyContent: "center" }}>
-              05 / Contact
+              Contact
             </div>
             <h2 className="big">
               Let&apos;s build
@@ -689,16 +688,22 @@ export function PortfolioPage() {
               <a
                 href="https://github.com/abdullah-imran-1713"
                 className="social"
+                target="_blank"
+                rel="noopener noreferrer"
                 data-hover
               >
-                GitHub <span className="ext">↗</span>
+                <GitHubIcon className="social__icon" />
+                <span>GitHub</span>
               </a>
               <a
                 href="https://www.linkedin.com/in/ll-abdullah-imran-ll/"
                 className="social"
+                target="_blank"
+                rel="noopener noreferrer"
                 data-hover
               >
-                LinkedIn <span className="ext">↗</span>
+                <LinkedInIcon className="social__icon" />
+                <span>LinkedIn</span>
               </a>
               <a
                 href="/Abdullah-Imran-CV.pdf"
@@ -706,7 +711,8 @@ export function PortfolioPage() {
                 className="social"
                 data-hover
               >
-                Download Resume <span className="ext">↓</span>
+                <DownloadIcon className="social__icon" />
+                <span>Download Resume</span>
               </a>
             </div>
           </div>

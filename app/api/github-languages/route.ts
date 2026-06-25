@@ -5,7 +5,7 @@ const USERNAME = "abdullah-imran-1713";
 const QUERY = `
   query {
     user(login: "${USERNAME}") {
-      repositories(first: 100, ownerAffiliations: OWNER, privacy: PRIVATE, isFork: false) {
+      repositories(first: 100, ownerAffiliations: OWNER, isFork: false) {
         nodes {
           languages(first: 10, orderBy: { field: SIZE, direction: DESC }) {
             edges {
