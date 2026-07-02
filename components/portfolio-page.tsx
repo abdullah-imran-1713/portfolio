@@ -72,6 +72,7 @@ const STACK_CATEGORIES = [
 const EXPERIENCE = [
   {
     dates: "May 2025 — Present",
+    active: true,
     role: "Full-Stack Developer",
     company: "HealthShared",
     url: "https://health-shared.com",
@@ -108,7 +109,8 @@ const EXPERIENCE = [
     ],
   },
   {
-    dates: "Oct 2025 — Present",
+    dates: "Oct 2025 — Jul 2026",
+    active: false,
     role: "Full-Stack Developer",
     company: "Lyfetymes",
     url: "https://www.lyfetymes.com",
@@ -146,7 +148,8 @@ const EXPERIENCE = [
     ],
   },
   {
-    dates: "Dec 2025 — Present",
+    dates: "Nov 2025 — Feb 2026",
+    active: false,
     role: "Full-Stack Developer",
     company: "Quartrly",
     url: "https://www.quartrly.com",
@@ -596,9 +599,11 @@ export function PortfolioPage() {
                 <div className="tl-meta">
                   <div className="tl-dates">{item.dates}</div>
                   <div className="tl-role">{item.role}</div>
-                  <div className="tl-status">
-                    <span className="live" /> Active
-                  </div>
+                  {item.active && (
+                    <div className="tl-status">
+                      <span className="live" /> Active
+                    </div>
+                  )}
                 </div>
                 <div className="tl-body">
                   <div className="tl-heading">

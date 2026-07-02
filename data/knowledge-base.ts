@@ -81,14 +81,14 @@ Hero positioning: "I build scalable web platforms — end to end." / "Turning ha
       "code review",
     ],
     content: `- 2+ years total professional experience
-- Simultaneously active at 3 production platforms: HealthShared (May 2025), Lyfetymes (Oct 2025), Quartrly (Dec 2025)
-- Employment model: all 3 are contract/freelance engagements
+- Currently active at HealthShared (May 2025 — Present); previously contracted at Lyfetymes (Oct 2025 — Jul 2026) and Quartrly (Nov 2025 — Feb 2026)
+- Employment model: contract/freelance engagements across production platforms
 - Not a traditional single full-time employer setup
 - Open to full-time employment as well — both models work
 - Team size: 2-5 developers per company
 - Workflow: team collaboration with informal sprints and standups (not formal Scrum by name)
 - Code reviews: both gives and receives regularly
-- Managing 3 concurrent production codebases simultaneously`,
+- Has managed multiple concurrent production codebases across international platforms`,
   },
   {
     id: "stack-frontend",
@@ -242,9 +242,10 @@ Stack: Next.js, React, TypeScript, Firebase, Tailwind, Zustand`,
       "experience",
       "template",
     ],
-    content: `Lyfetymes — Full-Stack Developer (Oct 2025 — Present)
+    content: `Lyfetymes — Full-Stack Developer (Oct 2025 — Jul 2026)
 URL: https://www.lyfetymes.com
 Type: Event-management platform — celebration templates
+Status: Completed contract engagement (platform remains live)
 
 What Abdullah actually did (honest, defensible):
 
@@ -283,9 +284,10 @@ Stack: Vue.js 2, Laravel, MySQL, AWS S3, reCAPTCHA v3`,
       "experience",
       "onboarding",
     ],
-    content: `Quartrly — Full-Stack Developer (Dec 2025 — Present)
+    content: `Quartrly — Full-Stack Developer (Nov 2025 — Feb 2026)
 URL: https://www.quartrly.com
 Type: Quarterly scheduling app — real-time availability
+Status: Completed contract engagement (platform remains live)
 
 Strongest achievement — Signup flow integrity:
 - Re-architected multi-step onboarding flow to eliminate client-side race conditions and infinite redirect loops
@@ -395,7 +397,7 @@ The portfolio displays live GitHub data when configured: contribution graph, lan
 Best fit roles: Full-Stack Developer, Frontend-heavy Full-Stack, React/Next.js Developer, Vue Full-Stack
 
 Strongest signals:
-- Production experience across 3 active platforms (health, events, scheduling)
+- Production experience across 3 international platforms (health, events, scheduling) — currently active at HealthShared
 - Payments (Stripe), RBAC, real-time scheduling, gamification, SSR/performance
 - TypeScript across modern React and Next.js stacks
 
@@ -425,7 +427,7 @@ To reach Abdullah: email abdullah.dev1713@gmail.com or LinkedIn.`,
       "workflow",
       "daily",
     ],
-    content: `- Uses Git daily across all 3 production codebases
+    content: `- Uses Git daily across production codebases
 - Feature branch workflow with Pull Requests
 - Code reviews: both gives and receives regularly
 - Merge conflict resolution
@@ -532,7 +534,7 @@ To reach Abdullah: email abdullah.dev1713@gmail.com or LinkedIn.`,
       "highlight",
       "production",
     ],
-    content: `- Simultaneously contributing to 3 active international production platforms (HealthShared UK, Lyfetymes, Quartrly)
+    content: `- Shipped features across 3 international production platforms (HealthShared UK, Lyfetymes, Quartrly) — currently active at HealthShared
 - Fixed production-only Next.js Full Route Cache bug that only reproduced in production, not localhost
 - Optimized Firestore parallel reads — roughly halved response time on affected paths
 - Built complete GDPR data-rights system (Articles 15-22)
@@ -556,8 +558,8 @@ To reach Abdullah: email abdullah.dev1713@gmail.com or LinkedIn.`,
       "collaboration",
     ],
     content: `- Direct communication with HealthShared founder/owner
-- Works with Team Leads at Lyfetymes and Quartrly
-- All 3 platforms are international (not local Pakistani clients)
+- Previously worked with Team Leads at Lyfetymes and Quartrly
+- All platforms are international (not local Pakistani clients)
 - Professional async remote communication in English
 - Comfortable working across different time zones and teams`,
   },
@@ -577,7 +579,7 @@ To reach Abdullah: email abdullah.dev1713@gmail.com or LinkedIn.`,
     content: `- No formal mentoring role yet
 - Regularly participates in code reviews — giving and receiving
 - Active technical discussions within small teams (2-5 devs)
-- Managing 3 concurrent production codebases independently
+- Has managed multiple concurrent production codebases independently
 - Fast learner — picked up Firebase Cloud Functions architecture and GDPR engineering within months`,
   },
   {
@@ -604,7 +606,7 @@ Q: Does he work well in teams?
 A: Yes — 2-5 developer teams, code reviews, informal sprints and standups across 3 companies.
 
 Q: Can he handle existing codebases?
-A: Yes — all 3 current jobs involve joining and improving live production codebases.
+A: Yes — all engagements involve joining and improving live production codebases.
 
 Q: Is he open to remote work?
 A: Yes — strongly prefers remote.
@@ -619,7 +621,7 @@ Q: What company types does he prefer?
 A: Startups and small teams primarily, open to agencies.
 
 Q: Does he have international experience?
-A: Yes — all 3 current platforms are international products.
+A: Yes — production work across international platforms (HealthShared UK, Lyfetymes, Quartrly).
 
 Q: Can he start immediately?
 A: Notice period — discuss privately via email.
@@ -642,7 +644,7 @@ A: Manual testing in production; relies on TypeScript strict typing and code rev
     ],
     content: `Current level: Mid-level Full-Stack Developer
 - 2+ years professional experience
-- Simultaneously maintaining 3 production codebases
+- Production experience across multiple international codebases; currently active at HealthShared
 - Has diagnosed and fixed production-only bugs independently
 - Comfortable owning features end-to-end across stack
 - Not claiming: staff/architect level, large-scale team leadership, or formal senior engineer title
@@ -669,7 +671,7 @@ A: Manual testing in production; relies on TypeScript strict typing and code rev
     content: `- Based in Lahore, Pakistan — PKT (UTC+5)
 - Working hours: flexible — can provide overlap with US, UK, and European teams
 - Comfortable with async-first remote workflows
-- Currently working with international teams across different timezones (HealthShared UK, Lyfetymes, Quartrly)`,
+- Currently working with international teams (HealthShared UK)`,
   },
   {
     id: "dsa-algorithms",
@@ -853,7 +855,7 @@ If asked about Blender: yes, he has some experience, but it is not a core hiring
 
 - Portfolio built with Next.js 14, TypeScript, custom CSS design system, and Three.js hero
 - Cares deeply about UX polish, performance, SSR stability, and maintainable architecture
-- Comfortable working across multiple codebases simultaneously (currently active at HealthShared, Lyfetymes, and Quartrly)
+- Comfortable working across multiple codebases (currently active at HealthShared; previously at Lyfetymes and Quartrly)
 - Communication: professional English; based in Lahore, Pakistan
 
 To add more supplemental facts (certifications, university projects, languages spoken, etc.), update data/knowledge-base.ts on the portfolio repo.`,
