@@ -8,6 +8,7 @@ import { HeroCanvas } from "./hero-canvas";
 import { StarfieldCanvas } from "./starfield-canvas";
 import { RecruiterAssistant } from "./recruiter-assistant";
 import { DownloadIcon, GitHubIcon, LinkedInIcon } from "./social-icons";
+import { getTechIcon } from "./tech-icons";
 
 const TYPED_PHRASES = [
   "I build scalable web platforms — end to end.",
@@ -28,7 +29,7 @@ const STACK_CATEGORIES = [
       "Three.js",
       "Tailwind",
       "Material-UI",
-      "Zustand / Redux",
+      "Redux",
     ],
   },
   {
@@ -105,7 +106,6 @@ const EXPERIENCE = [
       "TypeScript",
       "Firebase",
       "Tailwind",
-      "Zustand",
     ],
   },
   {
@@ -573,11 +573,15 @@ export function PortfolioPage() {
                   <span className="cat-name">{category.name}</span>
                 </div>
                 <div className="chips">
-                  {category.chips.map((chip) => (
-                    <span key={chip} className="chip">
-                      {chip}
-                    </span>
-                  ))}
+                  {category.chips.map((chip) => {
+                    const Icon = getTechIcon(chip);
+                    return (
+                      <span key={chip} className="chip">
+                        {Icon ? <Icon className="chip-icon" /> : null}
+                        {chip}
+                      </span>
+                    );
+                  })}
                 </div>
               </div>
             ))}
@@ -607,20 +611,24 @@ export function PortfolioPage() {
                 </div>
                 <div className="tl-body">
                   <div className="tl-heading">
-                    <h3>{item.company}</h3>
-                    {item.url && (
-                      <a
-                        href={item.url}
-                        className="tl-site"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        data-hover
-                        aria-label={`Visit ${item.company} live platform`}
-                      >
-                        <span className="tl-site__dot" aria-hidden="true" />
-                        Live platform <span className="ext">↗</span>
-                      </a>
-                    )}
+                    <h3>
+                      {item.url ? (
+                        <a
+                          href={item.url}
+                          className="tl-company"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          data-hover
+                        >
+                          <span className="tl-company__name">{item.company}</span>
+                          <span className="tl-company__arrow" aria-hidden="true">
+                            ↗
+                          </span>
+                        </a>
+                      ) : (
+                        item.company
+                      )}
+                    </h3>
                   </div>
                   <p className="tl-tagline">{item.tagline}</p>
                   <ul className="tl-points">
@@ -629,11 +637,15 @@ export function PortfolioPage() {
                     ))}
                   </ul>
                   <div className="tl-tags">
-                    {item.tags.map((tag) => (
-                      <span key={tag} className="tag">
-                        {tag}
-                      </span>
-                    ))}
+                    {item.tags.map((tag) => {
+                      const Icon = getTechIcon(tag);
+                      return (
+                        <span key={tag} className="tag">
+                          {Icon ? <Icon className="tag-icon" /> : null}
+                          {tag}
+                        </span>
+                      );
+                    })}
                   </div>
                 </div>
               </article>
