@@ -81,7 +81,7 @@ Hero positioning: "I build scalable web platforms — end to end." / "Turning ha
       "code review",
     ],
     content: `- 2+ years total professional experience
-- Currently active at HealthShared (May 2025 — Present); previously contracted at Lyfetymes (Oct 2025 — Jul 2026) and Quartrly (Nov 2025 — Feb 2026)
+- Previously at HealthShared (May 2025 — Nov 2026, promoted to Tech Lead), Lyfetymes (Oct 2025 — Jul 2026) and Quartrly (Nov 2025 — Feb 2026); currently open to work
 - Employment model: contract/freelance engagements across production platforms
 - Not a traditional single full-time employer setup
 - Open to full-time employment as well — both models work
@@ -136,7 +136,7 @@ Hero positioning: "I build scalable web platforms — end to end." / "Turning ha
 - Laravel (PHP)
 - Next.js Server Actions
 - REST APIs
-- Stripe API (payments integration)`,
+- Stripe (configured keys and tested the existing purchase flow at Lyfetymes — did not build the integration)`,
   },
   {
     id: "stack-data",
@@ -209,23 +209,28 @@ Hero positioning: "I build scalable web platforms — end to end." / "Turning ha
       "work",
       "experience",
       "job",
-      "current",
+      "tech lead",
+      "leadership",
+      "cloud run",
+      "rbac",
       "firebase",
       "gamification",
       "questionnaire",
     ],
-    content: `HealthShared — Full-Stack Developer (May 2025 — Present)
+    content: `HealthShared — Full-Stack Developer, promoted to Tech Lead (May 2025 — Nov 2026)
 URL: https://health-shared.com
-Type: Health community platform — production features across the stack
+Type: Health-tech community platform (Axiom Medical Ltd) — production features across the stack
 
 Key contributions:
-- Engineered a complete season-based questionnaire system with progress tracking, validation logic, and dynamic UI rendering
-- Implemented gamification architecture — badges, achievements, leaderboards — with optimized state and database sync
-- Developed secure server-side actions and API logic with strict TypeScript typing and data validation
-- Solved complex SSR hydration and lifecycle issues, improving performance and stability
-- Designed Firestore schema updates and backward-compatible migrations without breaking live data
+- Promoted to Tech Lead; led a 5-member dev + QA team through code reviews, task allocation, stand-ups, and technical hiring
+- Owned the release pipeline end-to-end: production merges, Cloud Functions, and Firebase Hosting + Cloud Run deploys
+- Built GDPR-style account deletion via Cloud Functions to purge personal data, anonymise content, and retain legal records
+- Owned the recommendation engine: improved content matching, weekly feed rotation, and reward abuse-prevention
+- Hardened RBAC with server-side authorization on admin routes and server actions, closing SSR data-exposure gaps
+- Engineered a season-based questionnaire and check-in timeline driving personalised content and points scoring
+- Implemented gamification (badges, leaderboards), versioned T&C re-acceptance, and live Firestore migrations
 
-Stack: Next.js, React, TypeScript, Firebase, Tailwind, Zustand`,
+Stack: Next.js, React, TypeScript, Firebase, Cloud Functions, Cloud Run, Tailwind`,
   },
   {
     id: "lyfetymes",
@@ -286,7 +291,7 @@ Stack: Vue.js 2, Laravel, MySQL, AWS S3, reCAPTCHA v3`,
     ],
     content: `Quartrly — Full-Stack Developer (Nov 2025 — Feb 2026)
 URL: https://www.quartrly.com
-Type: Quarterly scheduling app — real-time availability
+Type: US-based marketplace for paid 15-minute 1-on-1 video calls with experts and creators
 Status: Completed contract engagement (platform remains live)
 
 Strongest achievement — Signup flow integrity:
@@ -397,8 +402,8 @@ The portfolio displays live GitHub data when configured: contribution graph, lan
 Best fit roles: Full-Stack Developer, Frontend-heavy Full-Stack, React/Next.js Developer, Vue Full-Stack
 
 Strongest signals:
-- Production experience across 3 international platforms (health, events, scheduling) — currently active at HealthShared
-- Payments (Stripe), RBAC, real-time scheduling, gamification, SSR/performance
+- Production experience across 3 international platforms (health, events, scheduling) — most recently HealthShared (May 2025 — Nov 2026, promoted to Tech Lead)
+- RBAC, real-time scheduling, gamification, SSR/performance
 - TypeScript across modern React and Next.js stacks
 
 Stack match examples:
@@ -534,15 +539,15 @@ To reach Abdullah: email abdullah.dev1713@gmail.com or LinkedIn.`,
       "highlight",
       "production",
     ],
-    content: `- Shipped features across 3 international production platforms (HealthShared UK, Lyfetymes, Quartrly) — currently active at HealthShared
-- Fixed production-only Next.js Full Route Cache bug that only reproduced in production, not localhost
-- Optimized Firestore parallel reads — roughly halved response time on affected paths
-- Built complete GDPR data-rights system (Articles 15-22)
+    content: `- Shipped production features for 3 international clients: HealthShared (UK), Lyfetymes, and Quartrly — each listed separately below.
+- Fixed production-only Next.js Full Route Cache bug that only reproduced in production, not localhost (HealthShared)
+- Optimized Firestore parallel reads — roughly halved response time on affected paths (HealthShared)
+- Built complete GDPR data-rights system (Articles 15-22) (HealthShared)
 - Engineered gamification architecture from scratch (HealthShared)
-- Built SaaS subscription payment integration (Lemon Squeezy)
+- Built SaaS subscription payment integration (Lemon Squeezy) in personal project LetzPlay
 - Designed scalable RBAC permission systems (Lyfetymes)
 - Built AI agricultural robot + web portal (Final Year Project)
-- Deployed projects independently to Vercel and Netlify`,
+- Deployed projects independently to Vercel and Netlify (personal projects, including this portfolio)`,
   },
   {
     id: "client-communication",
@@ -557,7 +562,7 @@ To reach Abdullah: email abdullah.dev1713@gmail.com or LinkedIn.`,
       "team",
       "collaboration",
     ],
-    content: `- Direct communication with HealthShared founder/owner
+    content: `- Communicated directly with the HealthShared founder/owner
 - Previously worked with Team Leads at Lyfetymes and Quartrly
 - All platforms are international (not local Pakistani clients)
 - Professional async remote communication in English
@@ -576,7 +581,8 @@ To reach Abdullah: email abdullah.dev1713@gmail.com or LinkedIn.`,
       "feedback",
       "growth",
     ],
-    content: `- No formal mentoring role yet
+    content: `- Promoted to Tech Lead at HealthShared; led a 5-member dev + QA team: code reviews, task allocation, stand-ups, and technical hiring
+- Technical hiring at HealthShared: designed a 48-hour trial task for candidates and onboarded a junior developer
 - Regularly participates in code reviews — giving and receiving
 - Active technical discussions within small teams (2-5 devs)
 - Has managed multiple concurrent production codebases independently
@@ -644,7 +650,8 @@ A: Manual testing in production; relies on TypeScript strict typing and code rev
     ],
     content: `Current level: Mid-level Full-Stack Developer
 - 2+ years professional experience
-- Production experience across multiple international codebases; currently active at HealthShared
+- Production experience across multiple international codebases; most recently HealthShared (May 2025 — Nov 2026)
+- Small-team Tech Lead experience (5 members) at HealthShared
 - Has diagnosed and fixed production-only bugs independently
 - Comfortable owning features end-to-end across stack
 - Not claiming: staff/architect level, large-scale team leadership, or formal senior engineer title
@@ -671,7 +678,7 @@ A: Manual testing in production; relies on TypeScript strict typing and code rev
     content: `- Based in Lahore, Pakistan — PKT (UTC+5)
 - Working hours: flexible — can provide overlap with US, UK, and European teams
 - Comfortable with async-first remote workflows
-- Currently working with international teams (HealthShared UK)`,
+- Has worked with international teams (e.g. HealthShared UK, May 2025 — Nov 2026); currently open to work`,
   },
   {
     id: "dsa-algorithms",
@@ -710,7 +717,7 @@ A: Manual testing in production; relies on TypeScript strict typing and code rev
     ],
     content: `Honest boundaries — Abdullah does not claim:
 - Formal senior engineer or staff/architect title
-- Large-scale team leadership or management experience
+- Large-scale team leadership or management experience (small-team Tech Lead experience — 5 members at HealthShared — IS claimed)
 - Extensive automated testing (Jest/Cypress) experience
 - Kubernetes expertise
 - DSA/competitive programming at advanced level
@@ -764,7 +771,7 @@ Note: exposure is through production feature work, not formal system design inte
 - Only answer from documented experience in this knowledge base
 - Do NOT claim technologies not explicitly listed
 - Do NOT invent certifications or qualifications
-- Do NOT invent leadership or management experience
+- Do NOT invent leadership or management experience beyond the documented small-team Tech Lead role at HealthShared
 - Do NOT upgrade seniority level beyond mid-level
 - If information is unavailable, say:
   "I don't have that detail — please contact Abdullah directly at abdullah.dev1713@gmail.com"
@@ -855,7 +862,7 @@ If asked about Blender: yes, he has some experience, but it is not a core hiring
 
 - Portfolio built with Next.js 14, TypeScript, custom CSS design system, and Three.js hero
 - Cares deeply about UX polish, performance, SSR stability, and maintainable architecture
-- Comfortable working across multiple codebases (currently active at HealthShared; previously at Lyfetymes and Quartrly)
+- Comfortable working across multiple codebases (previously at HealthShared, Lyfetymes and Quartrly; currently open to work)
 - Communication: professional English; based in Lahore, Pakistan
 
 To add more supplemental facts (certifications, university projects, languages spoken, etc.), update data/knowledge-base.ts on the portfolio repo.`,

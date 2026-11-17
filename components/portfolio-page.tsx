@@ -72,32 +72,40 @@ const STACK_CATEGORIES = [
 
 const EXPERIENCE = [
   {
-    dates: "May 2025 — Present",
-    active: true,
+    dates: "May 2025 — Nov 2026",
+    active: false,
     role: "Full-Stack Developer",
     company: "HealthShared",
     url: "https://health-shared.com",
-    tagline: "Health community platform · production features across the stack",
+    tagline: "Health-tech community platform · production features across the stack",
     points: [
       <>
-        Engineered a complete <b>season-based questionnaire system</b> with
-        progress tracking, validation logic, and dynamic UI rendering.
+        Promoted to <b>Tech Lead</b>; led a 5-member dev + QA team through
+        code reviews, task allocation, stand-ups, and technical hiring.
       </>,
       <>
-        Implemented a <b>gamification architecture</b> — badges, achievements
-        and leaderboards — with optimized state + database sync.
+        Owned the <b>release pipeline</b> end-to-end: production merges, Cloud
+        Functions, and Firebase Hosting + Cloud Run deploys.
       </>,
       <>
-        Developed secure <b>server-side actions &amp; API logic</b> with strict
-        TypeScript typing and data validation.
+        Built <b>GDPR-style account deletion</b> via Cloud Functions to purge
+        personal data, anonymise content, and retain legal records.
       </>,
       <>
-        Solved complex <b>SSR hydration &amp; lifecycle issues</b>, improving
-        performance and stability across pages.
+        Owned the <b>recommendation engine</b>: improved content matching,
+        weekly feed rotation, and reward abuse-prevention.
       </>,
       <>
-        Designed Firestore schema updates and{" "}
-        <b>backward-compatible migrations</b> without breaking live data.
+        Hardened <b>RBAC</b> with server-side authorization on admin routes and
+        server actions, closing SSR data-exposure gaps.
+      </>,
+      <>
+        Engineered a <b>season-based questionnaire</b> and check-in timeline
+        driving personalised content and points scoring.
+      </>,
+      <>
+        Implemented <b>gamification</b> (badges, leaderboards), versioned T&amp;C
+        re-acceptance, and live <b>Firestore migrations</b>.
       </>,
     ],
     tags: [
@@ -105,6 +113,8 @@ const EXPERIENCE = [
       "React",
       "TypeScript",
       "Firebase",
+      "Cloud Functions",
+      "Cloud Run",
       "Tailwind",
     ],
   },
@@ -153,7 +163,7 @@ const EXPERIENCE = [
     role: "Full-Stack Developer",
     company: "Quartrly",
     url: "https://www.quartrly.com",
-    tagline: "Quarterly scheduling app · real-time availability at scale",
+    tagline: "US-based marketplace for paid 15-minute 1-on-1 video calls with experts and creators",
     points: [
       <>
         Designed a <b>time-slot engine</b> supporting 15-minute interval

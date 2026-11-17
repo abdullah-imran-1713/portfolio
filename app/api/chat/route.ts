@@ -13,6 +13,43 @@ type ChatRequestBody = {
 };
 
 const MAX_MESSAGE_LENGTH = 500;
+const MAX_HISTORY_REPLY_LENGTH = 4000;
+// Last 2 Q&A pairs — enough for follow-ups while keeping requests small.
+const MAX_HISTORY_TURNS = 4;
+
+/**
+ * Keep only complete user → assistant pairs so the model always sees strictly
+ * alternating roles. A user turn without a reply (e.g. a failed request) or an
+ * oversized turn is dropped together with its partner, never on its own —
+ * dropping only the reply leaves stacked user questions that the model then
+ * re-answers.
+ */
+function normalizeHistory(raw: unknown): ChatMessage[] {
+  if (!Array.isArray(raw)) return [];
+
+  const pairs: ChatMessage[] = [];
+  for (let i = 0; i < raw.length - 1; i++) {
+    const user = raw[i];
+    const reply = raw[i + 1];
+    if (
+      user?.role === "user" &&
+      reply?.role === "assistant" &&
+      typeof user.content === "string" &&
+      typeof reply.content === "string" &&
+      user.content.trim() &&
+      reply.content.trim() &&
+      user.content.length <= MAX_MESSAGE_LENGTH &&
+      reply.content.length <= MAX_HISTORY_REPLY_LENGTH
+    ) {
+      pairs.push(
+        { role: "user", content: user.content },
+        { role: "assistant", content: reply.content },
+      );
+      i++;
+    }
+  }
+  return pairs.slice(-MAX_HISTORY_TURNS);
+}
 
 function getClientKey(request: NextRequest): string {
   const forwarded = request.headers.get("x-forwarded-for");
@@ -57,16 +94,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const history = Array.isArray(body.history)
-    ? body.history.filter(
-        (turn): turn is ChatMessage =>
-          !!turn &&
-          (turn.role === "user" || turn.role === "assistant") &&
-          typeof turn.content === "string" &&
-          turn.content.length > 0 &&
-          turn.content.length <= MAX_MESSAGE_LENGTH,
-      )
-    : [];
+  const history = normalizeHistory(body.history);
 
   const systemPrompt = buildSystemPrompt(message);
 

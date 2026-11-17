@@ -1,6 +1,6 @@
 type ChatMessage = { role: "user" | "assistant"; content: string };
 
-const GROQ_MODEL = "llama-3.1-8b-instant";
+const GROQ_MODEL = "openai/gpt-oss-20b";
 
 export async function generateReply(
   systemPrompt: string,
@@ -33,7 +33,11 @@ export async function generateReply(
       model: GROQ_MODEL,
       messages,
       temperature: 0.2,
-      max_tokens: 600,
+      // gpt-oss is a reasoning model: reasoning tokens count toward this limit,
+      // so keep effort low and leave headroom for the final answer.
+      max_completion_tokens: 700,
+      reasoning_effort: "low",
+      include_reasoning: false,
     }),
     cache: "no-store",
   });
@@ -44,11 +48,16 @@ export async function generateReply(
     throw new Error(
       response.status === 401
         ? "Invalid GROQ_API_KEY. Create one at console.groq.com/keys"
-        : "AI service temporarily unavailable.",
+        : response.status === 429
+          ? "I'm getting a lot of questions right now — please try again in a minute."
+          : "AI service temporarily unavailable.",
     );
   }
 
   const data = await response.json();
+  if (process.env.NODE_ENV === "development") {
+    console.info("Groq usage:", JSON.stringify(data?.usage), "finish:", data?.choices?.[0]?.finish_reason);
+  }
   return (
     data?.choices?.[0]?.message?.content?.trim() ||
     "I couldn't generate a response. Please try again or email abdullah.dev1713@gmail.com."

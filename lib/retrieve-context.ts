@@ -90,7 +90,8 @@ function scoreChunk(chunk: KnowledgeChunk, queryTokens: string[]): number {
   return score;
 }
 
-export function retrieveContext(query: string, limit = 6): string {
+// Kept small to stay within Groq free-tier tokens-per-minute limits.
+export function retrieveContext(query: string, limit = 3): string {
   const tokens = tokenize(query);
   const ranked = KNOWLEDGE_CHUNKS.map((chunk) => ({
     chunk,
